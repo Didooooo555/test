@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <title>Фармация мамандығына арналған 20 сұрақ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Негізгі стильдер */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: linear-gradient(135deg, #e3f2fd, #f5f5ff);
+            color: #222;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .wrapper {
+            width: 100%;
+            max-width: 1100px;
+            padding: 20px;
+        }
+
+        .card {
+            background: #ffffff;
+            padding: 24px;
+            border-radius: 18px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            border: 1px solid rgba(33,150,243,0.08);
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #1565c0;
+            text-align: center;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Сан кнопкалары (1–20) */
+        .numbers-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 8px;
+            margin-bottom: 22px;
+        }
+
+        .num-btn {
+            padding: 10px 0;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            background: #e3f2fd;
+            color: #1565c0;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.18s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        .num-btn:hover {
+            background: #1565c0;
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(21,101,192,0.25);
+        }
+
+        .num-btn.active {
+            background: #1565c0;
+            color: #ffffff;
+            box-shadow: 0 4px 10px rgba(21,101,192,0.25);
+        }
+
+        /* Сұрақ-жауап аймағы */
+        .qa-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border-radius: 14px;
+            padding: 16px 18px;
+            background: #f8fbff;
+            border: 1px solid rgba(21,101,192,0.18);
+            min-height: 90px;
+        }
+
+        .label {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #90a4ae;
+            letter-spacing: 0.08em;
+            margin-bottom: 2px;
+        }
+
+        #questionText {
+            font-size: 16px;
+            font-weight: 600;
+            color: #263238;
+        }
+
+        #answerBox {
+            margin-top: 4px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            background: #e3f2fd;
+            color: #0d47a1;
+            font-size: 15px;
+            display: none;
+        }
+
+        /* Түймелер төменгі жолда */
+        .actions {
+            margin-top: 12px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 9px 18px;
+            border-radius: 999px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.18s ease;
+        }
+
+        .btn-answer {
+            background: #1565c0;
+            color: #ffffff;
+            box-shadow: 0 4px 10px rgba(21,101,192,0.25);
+        }
+
+        .btn-answer:hover {
+            background: #0d47a1;
+            transform: translateY(-1px);
+        }
+
+        .btn-reset {
+            background: #eceff1;
+            color: #546e7a;
+        }
+
+        .btn-reset:hover {
+            background: #cfd8dc;
+            transform: translateY(-1px);
+        }
+
+        .hint {
+            font-size: 11px;
+            color: #90a4ae;
+            margin-top: 4px;
+        }
+
+        /* Адаптивті */
+        @media (max-width: 800px) {
+            .numbers-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 20px;
+            }
+            .card {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <div class="card">
+        <div class="title">Didar Kobenov</div>
+        <div class="title">Фармация мамандығына арналған 20 сұрақ</div>
+        <div class="subtitle">Кез келген санды таңдаңыз — сәйкес сұрақ шығады. «Жауабы» батырмасын басқанда жауап көрінеді.</div>
+
+        <!-- 1-20 сандары -->
+        <div class="numbers-grid" id="numbersGrid">
+            <button class="num-btn" data-id="1">1</button>
+            <button class="num-btn" data-id="2">2</button>
+            <button class="num-btn" data-id="3">3</button>
+            <button class="num-btn" data-id="4">4</button>
+            <button class="num-btn" data-id="5">5</button>
+            <button class="num-btn" data-id="6">6</button>
+            <button class="num-btn" data-id="7">7</button>
+            <button class="num-btn" data-id="8">8</button>
+            <button class="num-btn" data-id="9">9</button>
+            <button class="num-btn" data-id="10">10</button>
+            <button class="num-btn" data-id="11">11</button>
+            <button class="num-btn" data-id="12">12</button>
+            <button class="num-btn" data-id="13">13</button>
+            <button class="num-btn" data-id="14">14</button>
+            <button class="num-btn" data-id="15">15</button>
+            <button class="num-btn" data-id="16">16</button>
+            <button class="num-btn" data-id="17">17</button>
+            <button class="num-btn" data-id="18">18</button>
+            <button class="num-btn" data-id="19">19</button>
+            <button class="num-btn" data-id="20">20</button>
+        </div>
+
+        <!-- Сұрақ пен жауап аймағы -->
+        <div class="qa-container">
+            <div class="label">Сұрақ</div>
+            <div id="questionText">Санды басып, сұрақты қараңыз.</div>
+
+            <div id="answerBox"></div>
+
+            <div class="actions">
+                <button class="btn btn-answer" id="showAnswerBtn" disabled>Жауабы</button>
+                <button class="btn btn-reset" id="resetBtn">Таңдауды тазалау</button>
+            </div>
+            <div class="hint">Алдымен сұрақ нөмірін таңдаңыз, содан кейін «Жауабы» батырмасын басыңыз.</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 20 сұрақ пен жауап (нақты берілген мәтін)
+    const qaData = {
+        1: {
+            q: "Дәрілік зат дегеніміз не?",
+            a: "Адам мен жануар организміндегі аурулардың алдын алу, диагностикалау және емдеу үшін қолданылатын биологиялық белсенді қосылыс."
+        },
+        2: {
+            q: "Дәрілік түр дегеніміз не?",
+            a: "Дәрілік затқа белгілі бір физикалық күй мен қолдану ыңғайын беретін технологиялық түр (мысалы: таблетка, капсула, ерітінді)."
+        },
+        3: {
+            q: "Ерітінділер қандай мақсатта қолданылады?",
+            a: "Ішуге, инъекцияға, сыртқа жағуға немесе ингаляция жасау үшін сұйық дәрілік түр ретінде қолданылады."
+        },
+        4: {
+            q: "Таблетка дегеніміз не?",
+            a: "Қатты сығымдалған дәрілік түр, ішке қабылдауға арналған."
+        },
+        5: {
+            q: "Жақпа (мазь) дегеніміз не?",
+            a: "Терінің немесе шырышты қабықтың бетіне жағуға арналған жартылай қатты дәрілік түр."
+        },
+        6: {
+            q: "Фармакология нені зерттейді?",
+            a: "Дәрілік заттардың ағзаға әсер ету механизмін және олардың әсер ету заңдылықтарын зерттейді."
+        },
+        7: {
+            q: "Дәрінің фармакокинетикасы дегеніміз не?",
+            a: "Дәрінің ағзадағы тағдырын — сіңуі, таралуы, метаболизмі және шығарылуын зерттейтін ғылым саласы."
+        },
+        8: {
+            q: "Дәрілік заттарды енгізу жолдарын атаңыз.",
+            a: "Ішке (per os), тіл астына, бұлшықетке, көктамырға, тері астына, тік ішекке және т.б."
+        },
+        9: {
+            q: "Рецепт дегеніміз не?",
+            a: "Дәрігердің дәріханаға жазбаша түрде берген, дәріні дайындауға немесе босатуға арналған ресми құжаты."
+        },
+        10: {
+            q: "Рецепттің негізгі бөліктері қандай?",
+            a: "Inscription (тағайындау бөлігі), Subscriptio (дәріханаға нұсқау), Signatura (науқасқа арналған нұсқау), дәрігердің қолы мен мөрі."
+        },
+        11: {
+            q: "Мемлекеттік фармакопея дегеніміз не?",
+            a: "Дәрілік заттардың сапасына қойылатын мемлекеттік стандарттар мен сынау әдістері жинағы."
+        },
+        12: {
+            q: "Сапалы дәрі қандай талаптарға сай болуы керек?",
+            a: "Таза, қауіпсіз, тиімді, тұрақты және стандарттарға сай болуы керек."
+        },
+        13: {
+            q: "Фармацевттің кәсіби этикасы нені қамтиды?",
+            a: "Пациентке құрмет көрсету, құпиялылықты сақтау, кәсіби адалдық пен жауапкершілік."
+        },
+        14: {
+            q: "Фармацевтикалық ұйымдардың негізгі міндеті қандай?",
+            a: "Халықты сапалы және қауіпсіз дәрілік заттармен қамтамасыз ету."
+        },
+        15: {
+            q: "Дәріханалық бақылау дегеніміз не?",
+            a: "Дәрілердің сапасы, қолдану ережесі және рецептурасының дұрыстығын тексеру процесі."
+        },
+        16: {
+            q: "Фармацевтикалық биотехнология нені зерттейді?",
+            a: "Тірі организмдер мен олардың өнімдерін дәрілік препарат алу мақсатында қолдану жолдарын зерттейді."
+        },
+        17: {
+            q: "Генерик дәрі дегеніміз не?",
+            a: "Белсенді заты мен әсері түпнұсқамен бірдей, бірақ атауы мен өндірушісі басқа дәрі."
+        },
+        18: {
+            q: "Фитопрепарат дегеніміз не?",
+            a: "Емдік өсімдік шикізатынан дайындалған дәрілік препарат."
+        },
+        19: {
+            q: "Дәрілік заттың жанама әсері дегеніміз не?",
+            a: "Негізгі терапиялық әсерінен тыс, ағзада байқалатын жағымсыз реакция."
+        },
+        20: {
+            q: "Фармацевттің негізгі құжаттары қандай?",
+            a: "Рецепт журналдары, кіріс-шығыс кітаптары, сапа паспорты, заттық-сандық есеп кітабы."
+        }
+    };
+
+    const numberButtons = document.querySelectorAll('.num-btn');
+    const questionText = document.getElementById('questionText');
+    const answerBox = document.getElementById('answerBox');
+    const showAnswerBtn = document.getElementById('showAnswerBtn');
+    const resetBtn = document.getElementById('resetBtn');
+
+    let currentId = null;
+
+    // Сан таңдалғанда сұрақты шығару
+    numberButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = parseInt(btn.getAttribute('data-id'), 10);
+
+            numberButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            if (qaData[id]) {
+                currentId = id;
+                questionText.textContent = id + ". " + qaData[id].q;
+                answerBox.style.display = "none";
+                answerBox.textContent = "";
+                showAnswerBtn.disabled = false;
+            } else {
+                currentId = null;
+                questionText.textContent = "Қате: бұл сұрақ табылмады.";
+                answerBox.style.display = "none";
+                answerBox.textContent = "";
+                showAnswerBtn.disabled = true;
+            }
+        });
+    });
+
+    // «Жауабы» батырмасы
+    showAnswerBtn.addEventListener('click', () => {
+        if (!currentId || !qaData[currentId]) return;
+        answerBox.textContent = qaData[currentId].a;
+        answerBox.style.display = "block";
+    });
+
+    // Тазалау батырмасы
+    resetBtn.addEventListener('click', () => {
+        currentId = null;
+        numberButtons.forEach(b => b.classList.remove('active'));
+        questionText.textContent = "Санды басып, сұрақты қараңыз.";
+        answerBox.style.display = "none";
+        answerBox.textContent = "";
+        showAnswerBtn.disabled = true;
+    });
+
+    // Бастапқы күй
+    showAnswerBtn.disabled = true;
+</script>
+</body>
+</html>
